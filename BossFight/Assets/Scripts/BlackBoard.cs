@@ -15,13 +15,13 @@ public class BlackBoard
     // Distance to points of interest
     Vector3 DistToLeftWall;
     Vector3 DistToRighttWall;
+    Vector3 DistToPlayer;
 
 
     // Method Calls
     // constructor
-    public BlackBoard(Transform _BossTransform, Transform _PlyrTransform, 
-                        float _PlyrHP, float _BossHP,
-                        Vector3 _DistToLeftWall, Vector3 _DistToRighttWall)
+    public BlackBoard(Transform _BossTransform, Transform _PlyrTransform, float _PlyrHP, float _BossHP, 
+                        Vector3 _DistToLeftWall, Vector3 _DistToRighttWall, Vector3 DistToPlayer)
     {
         // Transforms
         BossTransform = _BossTransform;
