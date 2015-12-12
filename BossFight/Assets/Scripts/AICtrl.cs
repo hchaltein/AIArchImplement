@@ -3,12 +3,11 @@ using System.Collections;
 
 public class AICtrl : MonoBehaviour
 {
-
     Transform MyTransform;
     Rigidbody MyRgdBdy;
 
-    BlackBoard CurBBoard;
-    BlackBoard NextBBoard;
+    public BlackBoard ReadBlckBrd;
+    public BlackBoard WriteBlckBrd;
 
     bool isFacingRight;
     public bool isGrounded;
@@ -43,12 +42,15 @@ public class AICtrl : MonoBehaviour
         // Get initial information from Specialists
 
         // Instantiate the BBoard
+        ReadBlckBrd = new BlackBoard();
+        WriteBlckBrd= new BlackBoard();
 
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        /* Test Controls
         // Input
         // Move Right
         if (Input.GetKey(KeyCode.D))
@@ -65,6 +67,7 @@ public class AICtrl : MonoBehaviour
         // Shoot
         if (Input.GetKeyDown(KeyCode.Space))
             ShootProj();
+        */
     }
 
     // This is called once per frame, after the Update function of every object
@@ -76,7 +79,7 @@ public class AICtrl : MonoBehaviour
     // Updates BlackBoard for next Frame
     void UpdateBlackBoard()
     {
-        CurBBoard = NextBBoard;
+        ReadBlckBrd = WriteBlckBrd;
     }
 
     void ShootProj()
@@ -124,7 +127,4 @@ public class AICtrl : MonoBehaviour
             MyRgdBdy.velocity += new Vector3(0, JumpSpeed);
         }
     }
-
-
-
 }
