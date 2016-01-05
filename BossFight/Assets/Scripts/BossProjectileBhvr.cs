@@ -20,7 +20,6 @@ public class BossProjectileBhvr : MonoBehaviour
         {
             return;
         }
-
         Destroy(this.gameObject);
     }
 

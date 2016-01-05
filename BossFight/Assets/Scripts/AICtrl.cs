@@ -39,12 +39,9 @@ public class AICtrl : MonoBehaviour
         MoveSpeed = 10.0f;
         JumpSpeed = 30.0f;
 
-        // Get initial information from Specialists
-
         // Instantiate the BBoard
         ReadBlckBrd = new BlackBoard();
         WriteBlckBrd= new BlackBoard();
-
     }
 	
 	// Update is called once per frame
@@ -73,12 +70,7 @@ public class AICtrl : MonoBehaviour
     // This is called once per frame, after the Update function of every object
     void LateUpdate()
     {
-        UpdateBlackBoard();
-    }
-
-    // Updates BlackBoard for next Frame
-    void UpdateBlackBoard()
-    {
+        // Update the Read black board with all the information that was read on this frame
         ReadBlckBrd = WriteBlckBrd;
     }
 
@@ -123,7 +115,7 @@ public class AICtrl : MonoBehaviour
     void Jump()
     {
         if (isGrounded && MyRgdBdy.velocity.y == 0)
-        { // Can jump
+        {   // Can jump
             MyRgdBdy.velocity += new Vector3(0, JumpSpeed);
         }
     }

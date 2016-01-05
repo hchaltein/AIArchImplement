@@ -12,10 +12,10 @@ public class BlackBoard
     float PlyrHP;
     float BossHP;
 
-    // Distance to points of interest
-    public float DistToLeftWall;
-    public float DistToRighttWall;
-    public float DistToPlayer;
+    // Distance Variables
+    public BossLocation BossLoc;
+    public PlayerLocation PlyrLoc;
+    public PlayerDistance PlyrDist;
 
     // Method Calls
 
@@ -30,14 +30,9 @@ public class BlackBoard
         PlyrHP = 100f;
         BossHP = 100f;
 
-        // Distance to points of interest
-        DistToLeftWall = 0.0f;
-        DistToRighttWall = 0.0f;
-        DistToPlayer = 0.0f;
     }
 
-    public BlackBoard(Transform _BossTransform, Transform _PlyrTransform, float _PlyrHP, float _BossHP,
-                        float _DistToLeftWall, float _DistToRighttWall, float DistToPlayer)
+    public BlackBoard(Transform _BossTransform, Transform _PlyrTransform, float _PlyrHP, float _BossHP)
     {
         // Transforms
         BossTransform = _BossTransform;
@@ -46,9 +41,5 @@ public class BlackBoard
         // Health
         PlyrHP = _PlyrHP;
         BossHP = _BossHP;
-
-        // Distance to points of interest
-        DistToLeftWall = _DistToLeftWall;
-        DistToRighttWall = _DistToRighttWall;
     }
 }

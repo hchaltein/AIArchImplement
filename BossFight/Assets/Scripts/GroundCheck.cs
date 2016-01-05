@@ -18,11 +18,14 @@ public class GroundCheck : MonoBehaviour {
             if (Parent.gameObject.tag == "Player")
             {
                 Parent.GetComponent<PlayerController>().isGrounded = true;
+                Parent.GetComponent<Rigidbody>().velocity = new Vector3(Parent.GetComponent<Rigidbody>().velocity.x, 0.0f);
                 return;
             }
+
             if (Parent.gameObject.tag == "Boss")
             {
                 Parent.GetComponent<AICtrl>().isGrounded = true;
+                Parent.GetComponent<Rigidbody>().velocity = new Vector3(Parent.GetComponent<Rigidbody>().velocity.x, 0.0f);
                 return;
             }
         }

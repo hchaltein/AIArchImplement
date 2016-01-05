@@ -49,11 +49,11 @@ public class PlayerController : MonoBehaviour {
             MoveLeft();
 
         //Jump
-        if (Input.GetKey(KeyCode.W) )
+        if (Input.GetKeyDown(KeyCode.W) )
             Jump();
 
         // Shoot
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.K))
             ShootProj();
     }
 
