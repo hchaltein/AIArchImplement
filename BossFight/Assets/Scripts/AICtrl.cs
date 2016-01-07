@@ -6,6 +6,7 @@ public class AICtrl : MonoBehaviour
     Transform MyTransform;
     Rigidbody MyRgdBdy;
 
+    // Black Boards: One being to be read and another to be written this frame.
     public BlackBoard ReadBlckBrd;
     public BlackBoard WriteBlckBrd;
 
