@@ -17,6 +17,10 @@ public class BlackBoard
     public PlayerLocation PlyrLoc;
     public PlayerDistance PlyrDist;
 
+    // Projectile Variables
+    public bool AreBulletsNear;
+    public int NumberBulletsNear;
+
     // Method Calls
 
     // Constructor

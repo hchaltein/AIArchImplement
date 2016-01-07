@@ -3,23 +3,36 @@ using System.Collections;
 
 public class PrjctlRdSpec : MonoBehaviour
 {
-    public bool isBulletNear;
-    public int BulletsNear;
+
+    AICtrl AiControler;
+
+    public bool AreBulletsNear;
+    public int TotalBulletsNear;
 
     // Use this for initialization
     void Start()
     {
-        BulletsNear = 0;
-        isBulletNear = false;
+        AiControler = GetComponent<AICtrl>();
+        TotalBulletsNear = 0;
+        AreBulletsNear = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (BulletsNear == 0)
-            isBulletNear = false;
+        if (TotalBulletsNear == 0)
+            AreBulletsNear = false;
         else
-            isBulletNear = true;
+            AreBulletsNear = true;
+
+        UpdateBlackBox();
+    }
+
+    // Updates BlackBox with Data collected every frame.
+    void UpdateBlackBox()
+    {
+        AiControler.WriteBlckBrd.AreBulletsNear = AreBulletsNear;
+        AiControler.WriteBlckBrd.NumberBulletsNear = TotalBulletsNear;
     }
 
 }

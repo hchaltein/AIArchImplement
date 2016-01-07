@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour {
             Jump();
 
         // Shoot
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.Space))
             ShootProj();
     }
 

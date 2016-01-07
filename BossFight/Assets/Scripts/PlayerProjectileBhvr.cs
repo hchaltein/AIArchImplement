@@ -6,11 +6,16 @@ public class PlayerProjectileBhvr : MonoBehaviour
     // Time to self destruct
     public float projDestroyTime = 3.0f;
     bool IsNearBoss;
+    GameObject BossObj;
 
     // Use this for initialization
     void Start()
     {
         IsNearBoss = false;
+        BossObj = GameObject.FindGameObjectWithTag("Boss");
+
+        Debug.Log("Bullet created and boss is: " + BossObj.ToString());
+
         StartCoroutine(KillSelf());
     }
 
@@ -22,22 +27,18 @@ public class PlayerProjectileBhvr : MonoBehaviour
         if (other.tag == "Player" || other.tag == "Projectile")
             return;
 
+
         // Bullet has come near boss.
         else if (other.tag == "ProjSpec" && IsNearBoss == false)
         {
             IsNearBoss = true;
-            other.GetComponentInParent<PrjctlRdSpec>().BulletsNear++;
+            BossObj.GetComponent<PrjctlRdSpec>().TotalBulletsNear++;
             return;
         }
 
-        // Bullet was near Boss and hit something else.
+        // Bullet was near Boss and hit something.
         else if (IsNearBoss == true)
-        {
-            if (other.tag == "Boss")
-            {
-                other.GetComponent<PrjctlRdSpec>().BulletsNear--;
-            }
-        }
+            BossObj.GetComponent<PrjctlRdSpec>().TotalBulletsNear--;
 
         Destroy(this.gameObject);
     }
@@ -47,7 +48,7 @@ public class PlayerProjectileBhvr : MonoBehaviour
         if (other.tag == "ProjSpec")
         {
             IsNearBoss = false;
-            other.GetComponentInParent<PrjctlRdSpec>().BulletsNear--;
+            BossObj.GetComponent<PrjctlRdSpec>().TotalBulletsNear--;
         }
     }
 

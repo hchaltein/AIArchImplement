@@ -49,6 +49,7 @@ public class DistRdSpec : MonoBehaviour
         UpdateBlackBox();
     }
 
+    // Updates BlackBox with Data collected every frame.
     void UpdateBlackBox()
     {
         AiControler.WriteBlckBrd.PlyrTransform = PlyrTransform;

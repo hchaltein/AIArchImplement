@@ -15,6 +15,9 @@ public class UIManager : MonoBehaviour {
     public Text PlyrLocLbl;
     public Text PlyrDistLbl;
 
+    public Text AreBulletsNearLbl;
+    public Text TotalBulletsNearLbl;
+
     bool DebugText = false;
 
     // Use this for initialization
@@ -43,6 +46,12 @@ public class UIManager : MonoBehaviour {
             PlyrLocLbl.text = AICtrl.ReadBlckBrd.PlyrLoc.ToString();
             PlyrDistLbl.text = AICtrl.ReadBlckBrd.PlyrDist.ToString();
             #endregion
+
+            #region Distance Variables
+            AreBulletsNearLbl.text = AICtrl.ReadBlckBrd.AreBulletsNear.ToString();
+            TotalBulletsNearLbl.text = AICtrl.ReadBlckBrd.NumberBulletsNear.ToString();
+            #endregion
+
         }
     }
 }
