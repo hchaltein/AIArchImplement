@@ -3,18 +3,19 @@ using System.Collections;
 
 public class AICtrl : MonoBehaviour
 {
+    //Boss Stats Variables.
+    float BossHP = 1.0f;
+
+    BlkBrdMngr BlkBrdMngr;
+
+    //Movement Variables
     Transform MyTransform;
     Rigidbody MyRgdBdy;
-
-    // Black Boards: One being to be read and another to be written this frame.
-    public BlackBoard ReadBlckBrd;
-    public BlackBoard WriteBlckBrd;
 
     bool isFacingRight;
     public bool isGrounded;
     public float MoveSpeed;
     public float JumpSpeed;
-    float BossHP = 100.0f;
 
     //Projectile Variables
     public GameObject projecPrefab;
@@ -22,57 +23,40 @@ public class AICtrl : MonoBehaviour
     public float projSpeed = 20.0f;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         // Component Gets
         projSpawnPoint = transform.FindChild("ArmCanon").transform;
         MyRgdBdy = GetComponent<Rigidbody>();
         MyTransform = transform;
 
+        // Black Board
+        BlkBrdMngr = GetComponent<BlkBrdMngr>();
+
         // Face Left
         isFacingRight = true;
         isGrounded = true;
-        
-        // Make boss Face Left
+
         MoveLeft();
 
         // Default Speeds
         MoveSpeed = 10.0f;
         JumpSpeed = 30.0f;
-
-        // Instantiate the BBoard
-        ReadBlckBrd = new BlackBoard();
-        WriteBlckBrd= new BlackBoard();
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        /* Test Controls
-        // Input
-        // Move Right
-        if (Input.GetKey(KeyCode.D))
-            MoveRight();
-
-        // Move Left
-        if (Input.GetKey(KeyCode.A))
-            MoveLeft();
-
-        //Jump
-        if (Input.GetKey(KeyCode.W))
-            Jump();
-
-        // Shoot
-        if (Input.GetKeyDown(KeyCode.Space))
-            ShootProj();
-        */
     }
 
-    // This is called once per frame, after the Update function of every object
-    void LateUpdate()
+    void Update()
     {
-        // Update the Read black board with all the information that was read on this frame
-        ReadBlckBrd = WriteBlckBrd;
+        // Updates the Black Board
+        BlkBrdMngr.WriteBlckBrd.BossHP = BossHP;
+
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "PlayerBullet")
+        {
+            BossHP -= 0.05f;
+        }
     }
 
     void ShootProj()
@@ -95,7 +79,7 @@ public class AICtrl : MonoBehaviour
         // If facing wrong direction, flip.
         if (!isFacingRight)
         {
-            MyTransform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            MyTransform.localRotation = new Quaternion(0, 1, 0, 1);
             isFacingRight = true;
         }
         MyRgdBdy.velocity = new Vector3(MoveSpeed, MyRgdBdy.velocity.y);
@@ -106,7 +90,7 @@ public class AICtrl : MonoBehaviour
         //If facing wrong direction, flip.
         if (isFacingRight)
         {
-            MyTransform.localScale = new Vector3(1.0f, 1.0f, -1.0f);
+            MyTransform.localRotation = new Quaternion(0, -1, 0, 1);
             isFacingRight = false;
         }
 
@@ -115,7 +99,7 @@ public class AICtrl : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && MyRgdBdy.velocity.y == 0)
+        if (isGrounded)
         {   // Can jump
             MyRgdBdy.velocity += new Vector3(0, JumpSpeed);
         }

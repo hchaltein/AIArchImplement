@@ -9,13 +9,14 @@ public class BlackBoard
     public Transform PlyrTransform;
 
     // Health
-    float PlyrHP;
-    float BossHP;
+    public float PlyrHP;
+    public float BossHP;
 
     // Distance Variables
     public BossLocation BossLoc;
     public PlayerLocation PlyrLoc;
     public PlayerDistance PlyrDist;
+    public bool isPlyrLinedUp;
 
     // Projectile Variables
     public bool AreBulletsNear;

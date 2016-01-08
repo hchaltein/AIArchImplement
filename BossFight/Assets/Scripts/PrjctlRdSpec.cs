@@ -4,7 +4,7 @@ using System.Collections;
 public class PrjctlRdSpec : MonoBehaviour
 {
 
-    AICtrl AiControler;
+    BlkBrdMngr BlkBrdMngr;
 
     public bool AreBulletsNear;
     public int TotalBulletsNear;
@@ -12,7 +12,7 @@ public class PrjctlRdSpec : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        AiControler = GetComponent<AICtrl>();
+        BlkBrdMngr = GetComponent<BlkBrdMngr>();
         TotalBulletsNear = 0;
         AreBulletsNear = false;
     }
@@ -31,8 +31,8 @@ public class PrjctlRdSpec : MonoBehaviour
     // Updates BlackBox with Data collected every frame.
     void UpdateBlackBox()
     {
-        AiControler.WriteBlckBrd.AreBulletsNear = AreBulletsNear;
-        AiControler.WriteBlckBrd.NumberBulletsNear = TotalBulletsNear;
+        BlkBrdMngr.WriteBlckBrd.AreBulletsNear = AreBulletsNear;
+        BlkBrdMngr.WriteBlckBrd.NumberBulletsNear = TotalBulletsNear;
     }
 
 }

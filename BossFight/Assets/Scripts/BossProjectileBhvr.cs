@@ -16,7 +16,7 @@ public class BossProjectileBhvr : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Boss" || other.tag == "Projectile" || other.tag == "ProjSpec")
+        if(other.tag == "Boss" || other.tag == "BossBullet" || other.tag == "PlayerBullet" || other.tag == "ProjSpec")
         {
             return;
         }

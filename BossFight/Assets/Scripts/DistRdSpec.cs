@@ -23,7 +23,7 @@ public enum PlayerDistance
 
 public class DistRdSpec : MonoBehaviour
 {
-    AICtrl AiControler;
+    BlkBrdMngr BlkBrdMngr;
     Transform BossTransform;
 
     public Transform PlyrTransform;
@@ -34,9 +34,13 @@ public class DistRdSpec : MonoBehaviour
     PlayerLocation PlyrLoc;
     PlayerDistance PlyrDist;
 
+    public bool isPlyrLinedUp;
+
+    RaycastHit TargetInfo;
+
     public void Awake()
     {
-        AiControler = GetComponent<AICtrl>();
+        BlkBrdMngr = GetComponent<BlkBrdMngr>();
         BossTransform = transform;
     }
 
@@ -47,16 +51,27 @@ public class DistRdSpec : MonoBehaviour
         ReadPlayerData();
         
         UpdateBlackBox();
+
+        // Checks if player is lined up with boss.
+        if (Physics.Raycast(BossTransform.position, BossTransform.forward, out TargetInfo))
+        {
+            if (TargetInfo.transform.tag == "Player")
+                isPlyrLinedUp = true;
+            else
+                isPlyrLinedUp = false;
+        }
     }
 
     // Updates BlackBox with Data collected every frame.
     void UpdateBlackBox()
     {
-        AiControler.WriteBlckBrd.PlyrTransform = PlyrTransform;
-        AiControler.WriteBlckBrd.BossTransform = BossTransform;
-        AiControler.WriteBlckBrd.BossLoc = BossLoc;
-        AiControler.WriteBlckBrd.PlyrLoc = PlyrLoc;
-        AiControler.WriteBlckBrd.PlyrDist = PlyrDist;
+        BlkBrdMngr.WriteBlckBrd.PlyrTransform = PlyrTransform;
+        BlkBrdMngr.WriteBlckBrd.BossTransform = BossTransform;
+        BlkBrdMngr.WriteBlckBrd.BossLoc = BossLoc;
+        BlkBrdMngr.WriteBlckBrd.PlyrLoc = PlyrLoc;
+        BlkBrdMngr.WriteBlckBrd.PlyrDist = PlyrDist;
+
+        BlkBrdMngr.WriteBlckBrd.isPlyrLinedUp= isPlyrLinedUp;
     }
 
     void ReadWallData()

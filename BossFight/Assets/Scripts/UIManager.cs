@@ -4,16 +4,23 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
+    // Players Objs
     public GameObject BossObj;
     public GameObject PlyrObj;
 
-    AICtrl AICtrl;
+    BlkBrdMngr BlkBrdMngr;
 
+    //Main UI
+    public Image PlayerHP;
+    public Image BossHp;
+
+    //Debug UI 
     public GameObject DebugTxtsObj;
 
     public Text BossLocLbl;
     public Text PlyrLocLbl;
     public Text PlyrDistLbl;
+    public Text FacingPlayer;
 
     public Text AreBulletsNearLbl;
     public Text TotalBulletsNearLbl;
@@ -26,7 +33,7 @@ public class UIManager : MonoBehaviour {
         // Deactivate Debug Text
         DebugTxtsObj.SetActive(DebugText);
 
-        AICtrl = BossObj.GetComponent<AICtrl>();
+        BlkBrdMngr = BossObj.GetComponent<BlkBrdMngr>();
 	}
 	
 	// Update is called once per frame
@@ -42,16 +49,28 @@ public class UIManager : MonoBehaviour {
         if(DebugText)
         {
             #region Distance Variables
-            BossLocLbl.text = AICtrl.ReadBlckBrd.BossLoc.ToString();
-            PlyrLocLbl.text = AICtrl.ReadBlckBrd.PlyrLoc.ToString();
-            PlyrDistLbl.text = AICtrl.ReadBlckBrd.PlyrDist.ToString();
+            BossLocLbl.text = BlkBrdMngr.ReadBlckBrd.BossLoc.ToString();
+            PlyrLocLbl.text = BlkBrdMngr.ReadBlckBrd.PlyrLoc.ToString();
+            PlyrDistLbl.text = BlkBrdMngr.ReadBlckBrd.PlyrDist.ToString();
+            if (BlkBrdMngr.ReadBlckBrd.isPlyrLinedUp)
+                FacingPlayer.text = "Player Lined Up!";
+            else
+                FacingPlayer.text = "Player Not Lined Up!";
             #endregion
 
             #region Distance Variables
-            AreBulletsNearLbl.text = AICtrl.ReadBlckBrd.AreBulletsNear.ToString();
-            TotalBulletsNearLbl.text = AICtrl.ReadBlckBrd.NumberBulletsNear.ToString();
-            #endregion
 
+            if (BlkBrdMngr.ReadBlckBrd.AreBulletsNear)
+                AreBulletsNearLbl.text = "Bullets Are Near";
+            else
+                AreBulletsNearLbl.text = "Bullets Are Not Near";
+            TotalBulletsNearLbl.text = BlkBrdMngr.ReadBlckBrd.NumberBulletsNear.ToString();
+            #endregion
         }
+
+        // Update HealthBars:
+        BossHp.fillAmount = BlkBrdMngr.ReadBlckBrd.BossHP;
+        PlayerHP.fillAmount = BlkBrdMngr.ReadBlckBrd.PlyrHP;
+
     }
 }

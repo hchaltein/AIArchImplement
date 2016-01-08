@@ -14,19 +14,16 @@ public class PlayerProjectileBhvr : MonoBehaviour
         IsNearBoss = false;
         BossObj = GameObject.FindGameObjectWithTag("Boss");
 
-        Debug.Log("Bullet created and boss is: " + BossObj.ToString());
-
+        // Destroy Bullet after some time.
         StartCoroutine(KillSelf());
     }
 
     // Destroy Projectile if it hits something except who instantiated it and other projectiles.
-
     void OnTriggerEnter(Collider other)
     {
         // Avoid Destroying Self when shot and by other projectiles:
-        if (other.tag == "Player" || other.tag == "Projectile")
+        if (other.tag == "Player" || other.tag == "BossBullet" || other.tag == "PlayerBullet")
             return;
-
 
         // Bullet has come near boss.
         else if (other.tag == "ProjSpec" && IsNearBoss == false)

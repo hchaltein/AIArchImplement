@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
+    // Player Stats
+    float PlayerHP = 1.0f;
 
     // Component Variables
     Transform MyTransform;
     Rigidbody MyRgdBdy;
+
+    public GameObject BossObj;
+    BlkBrdMngr BlkBrdMngr;
 
     // Player Variables
     bool isFacingRight;
     public bool isGrounded;
     public float MoveSpeed;
     public float JumpSpeed;
-    float PlayerHP = 100.0f;
 
     //Projectile Variables
     public GameObject projecPrefab;
@@ -26,6 +31,8 @@ public class PlayerController : MonoBehaviour {
         MyRgdBdy = GetComponent<Rigidbody>();
         MyTransform = transform;
         projSpawnPoint = transform.FindChild("ArmCanon").transform;
+
+        BlkBrdMngr = BossObj.GetComponent<BlkBrdMngr>();
 
         // Face Right
         isFacingRight = true;
@@ -55,7 +62,20 @@ public class PlayerController : MonoBehaviour {
         // Shoot
         if (Input.GetKeyDown(KeyCode.Space))
             ShootProj();
+
+        // Updates the Black Board
+        BlkBrdMngr.WriteBlckBrd.PlyrHP = PlayerHP;
+
     }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "BossBullet")
+        {
+            PlayerHP -= 0.05f;
+        }
+    }
+
 
     void ShootProj()
     {
@@ -97,7 +117,7 @@ public class PlayerController : MonoBehaviour {
 
     void Jump()
     {
-        if (isGrounded && MyRgdBdy.velocity.y == 0)
+        if (isGrounded )
         { // Can jump
             MyRgdBdy.velocity += new Vector3(0, JumpSpeed);
         }
