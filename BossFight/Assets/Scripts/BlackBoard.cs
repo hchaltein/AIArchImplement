@@ -21,10 +21,8 @@ public class BlackBoard
     // Projectile Variables
     public bool AreBulletsNear;
     public int NumberBulletsNear;
-
-    // Method Calls
-
-    // Constructor
+    
+    // Constructor - Assume that Boss and Player are at Starting Positions.
     public BlackBoard()
     {
         // Transforms
@@ -32,11 +30,21 @@ public class BlackBoard
         PlyrTransform = null;
 
         // Health
-        PlyrHP = 100f;
-        BossHP = 100f;
+        PlyrHP = 1.0f;
+        BossHP = 1.0f;
 
-    }
+        // Distance Variables
+        BossLoc = BossLocation.RightSide;
+        PlyrLoc = PlayerLocation.LeftFromBoss;
+        PlyrDist = PlayerDistance.Far;
+        isPlyrLinedUp = false;
 
+        // Projectile Variables
+        AreBulletsNear = false;
+        NumberBulletsNear = 0;
+}
+
+    /*
     public BlackBoard(Transform _BossTransform, Transform _PlyrTransform, float _PlyrHP, float _BossHP)
     {
         // Transforms
@@ -47,4 +55,5 @@ public class BlackBoard
         PlyrHP = _PlyrHP;
         BossHP = _BossHP;
     }
+    */
 }

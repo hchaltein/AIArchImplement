@@ -35,6 +35,9 @@ public class DistRdSpec : MonoBehaviour
     PlayerDistance PlyrDist;
 
     public bool isPlyrLinedUp;
+    [SerializeField]
+    [Range(4,15)]
+    float NearDistance = 7.5f;
 
     RaycastHit TargetInfo;
 
@@ -105,9 +108,9 @@ public class DistRdSpec : MonoBehaviour
         float DistToPlayer = Mathf.Abs(BossPosX - PlyrPosX);
 
         // Calculate relative distance of Player from Boss.
-        if (DistToPlayer < 4)
+        if (DistToPlayer < NearDistance)
             PlyrDist = PlayerDistance.Near;
-        else if (DistToPlayer > 4.5 )
+        else if (DistToPlayer > NearDistance + 0.5)
             PlyrDist = PlayerDistance.Far;
 
         // Calculate which side from the boss the player is.

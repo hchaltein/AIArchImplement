@@ -21,6 +21,11 @@ public class AICtrl : MonoBehaviour
     public GameObject projecPrefab;
     Transform projSpawnPoint;
     public float projSpeed = 20.0f;
+    
+    //[SerializeField]
+    //[Range(1,20)]
+    float fireRate = 5;
+    bool HasShot = false;
 
     // Use this for initialization
     void Start()
@@ -59,22 +64,23 @@ public class AICtrl : MonoBehaviour
         }
     }
 
-    void ShootProj()
+    public void ShootProj()
     {
-        GameObject Projectile = (GameObject)Instantiate(projecPrefab, projSpawnPoint.position, Quaternion.identity);
+        if (HasShot == false)
+        {
+            // Instantiate Bullet
+            GameObject Projectile = (GameObject)Instantiate(projecPrefab, projSpawnPoint.position, Quaternion.identity);
 
-        // Fires projectile.
-        if (isFacingRight)
-        {
+            // Makes Bullet Move along forward vector
             Projectile.GetComponent<Rigidbody>().velocity = transform.forward * projSpeed;
-        }
-        else
-        {
-            Projectile.GetComponent<Rigidbody>().velocity = transform.forward * -projSpeed;
+            
+            // Boss has shot.
+            HasShot = true;
+            StartCoroutine(WaitForFireRate());
         }
     }
 
-    void MoveRight()
+    public void MoveRight()
     {
         // If facing wrong direction, flip.
         if (!isFacingRight)
@@ -85,7 +91,7 @@ public class AICtrl : MonoBehaviour
         MyRgdBdy.velocity = new Vector3(MoveSpeed, MyRgdBdy.velocity.y);
     }
 
-    void MoveLeft()
+    public void MoveLeft()
     {
         //If facing wrong direction, flip.
         if (isFacingRight)
@@ -97,11 +103,18 @@ public class AICtrl : MonoBehaviour
         MyRgdBdy.velocity = new Vector3(-MoveSpeed, MyRgdBdy.velocity.y);
     }
 
-    void Jump()
+    public void Jump()
     {
         if (isGrounded)
         {   // Can jump
             MyRgdBdy.velocity += new Vector3(0, JumpSpeed);
         }
+    }
+        // Kills itself after some time.
+    IEnumerator WaitForFireRate()
+    {
+        //Wait for 1/fireRate to enable next shot.
+        yield return new WaitForSeconds(1/fireRate);
+        HasShot = false;
     }
 }
