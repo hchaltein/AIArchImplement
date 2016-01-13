@@ -12,7 +12,7 @@ public class AICtrl : MonoBehaviour
     Transform MyTransform;
     Rigidbody MyRgdBdy;
 
-    bool isFacingRight;
+    public bool isFacingRight;
     public bool isGrounded;
     public float MoveSpeed;
     public float JumpSpeed;
@@ -58,14 +58,18 @@ public class AICtrl : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        // Bullet Collision:
         if (other.tag == "PlayerBullet")
-        {
             BossHP -= 0.05f;
-        }
+        
+        // Landing on the floor:
+        else if (other.tag == "Floor")
+            isGrounded = true;
     }
 
     public void ShootProj()
     {
+        // Test for fire Rate.
         if (HasShot == false)
         {
             // Instantiate Bullet
@@ -84,10 +88,8 @@ public class AICtrl : MonoBehaviour
     {
         // If facing wrong direction, flip.
         if (!isFacingRight)
-        {
-            MyTransform.localRotation = new Quaternion(0, 1, 0, 1);
-            isFacingRight = true;
-        }
+            FaceRight();
+
         MyRgdBdy.velocity = new Vector3(MoveSpeed, MyRgdBdy.velocity.y);
     }
 
@@ -95,10 +97,7 @@ public class AICtrl : MonoBehaviour
     {
         //If facing wrong direction, flip.
         if (isFacingRight)
-        {
-            MyTransform.localRotation = new Quaternion(0, -1, 0, 1);
-            isFacingRight = false;
-        }
+            FaceLeft();
 
         MyRgdBdy.velocity = new Vector3(-MoveSpeed, MyRgdBdy.velocity.y);
     }
@@ -108,9 +107,23 @@ public class AICtrl : MonoBehaviour
         if (isGrounded)
         {   // Can jump
             MyRgdBdy.velocity += new Vector3(0, JumpSpeed);
+            isGrounded = false;
         }
     }
-        // Kills itself after some time.
+
+    public void FaceLeft()
+    {
+        MyTransform.localRotation = new Quaternion(0, -1, 0, 1);
+        isFacingRight = false;
+    }
+
+    public void FaceRight()
+    {
+        MyTransform.localRotation = new Quaternion(0, 1, 0, 1);
+        isFacingRight = true;
+    }
+
+    // Counter of time for the FireRate.
     IEnumerator WaitForFireRate()
     {
         //Wait for 1/fireRate to enable next shot.

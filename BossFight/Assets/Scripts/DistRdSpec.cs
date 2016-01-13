@@ -5,7 +5,6 @@ using System.Collections;
 public enum BossLocation
 {
     RightSide,
-    Center,
     LeftSide
 }
 
@@ -18,7 +17,8 @@ public enum PlayerLocation
 public enum PlayerDistance
 {
     Near,
-    Far
+    Far,
+    TooNear
 }
 
 public class DistRdSpec : MonoBehaviour
@@ -38,6 +38,8 @@ public class DistRdSpec : MonoBehaviour
     [SerializeField]
     [Range(4,15)]
     float NearDistance = 7.5f;
+
+    float TooNearDistance = 3.0f;
 
     RaycastHit TargetInfo;
 
@@ -87,15 +89,11 @@ public class DistRdSpec : MonoBehaviour
 
         // Read Left Wall Data.
         DistToLeftWall = Mathf.Abs((LeftWallTransform.position.x - BossTransform.position.x));
-
-        // Boss is on center of screen
-        if (Mathf.Abs(DistToRightWall - DistToLeftWall) < 3.0f)
-            BossLoc = BossLocation.Center;
         
         // Boss is on the right side of screen
-        else if(DistToRightWall < DistToLeftWall)
+        if(DistToRightWall < DistToLeftWall)
             BossLoc = BossLocation.RightSide;
-        
+
         // Boss is on the Leftside of screen
         else
             BossLoc = BossLocation.LeftSide;
@@ -108,7 +106,12 @@ public class DistRdSpec : MonoBehaviour
         float DistToPlayer = Mathf.Abs(BossPosX - PlyrPosX);
 
         // Calculate relative distance of Player from Boss.
-        if (DistToPlayer < NearDistance)
+
+        if (DistToPlayer <= TooNearDistance)
+        {
+            PlyrDist = PlayerDistance.TooNear;
+        }
+        else if (DistToPlayer <= NearDistance)
             PlyrDist = PlayerDistance.Near;
         else if (DistToPlayer > NearDistance + 0.5)
             PlyrDist = PlayerDistance.Far;
