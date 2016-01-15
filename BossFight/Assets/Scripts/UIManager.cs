@@ -48,6 +48,12 @@ public class UIManager : MonoBehaviour {
         // Only try to update debug variables if Debug Text is enabled.
         if(DebugText)
         {
+            #region Boss Bhvr Variables
+
+
+
+            #endregion
+
             #region Distance Variables
             BossLocLbl.text = BlkBrdMngr.ReadBlckBrd.BossLoc.ToString();
             PlyrLocLbl.text = BlkBrdMngr.ReadBlckBrd.PlyrLoc.ToString();
@@ -58,7 +64,7 @@ public class UIManager : MonoBehaviour {
                 FacingPlayer.text = "Player Not Lined Up!";
             #endregion
 
-            #region Distance Variables
+            #region Bullet Variables
 
             if (BlkBrdMngr.ReadBlckBrd.AreBulletsNear)
                 AreBulletsNearLbl.text = "Bullets Are Near";

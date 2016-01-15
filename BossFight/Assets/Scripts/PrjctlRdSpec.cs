@@ -20,10 +20,14 @@ public class PrjctlRdSpec : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TotalBulletsNear == 0)
+        if (TotalBulletsNear <= 0)
             AreBulletsNear = false;
         else
             AreBulletsNear = true;
+
+        // Sometimes bullets near become negative, this is a hard fix.
+        if (TotalBulletsNear < 0)
+            TotalBulletsNear = 0;
 
         UpdateBlackBox();
     }

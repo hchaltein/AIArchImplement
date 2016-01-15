@@ -5,7 +5,8 @@ using System.Collections;
 public enum BossLocation
 {
     RightSide,
-    LeftSide
+    LeftSide,
+    Center
 }
 
 public enum PlayerLocation
@@ -89,9 +90,12 @@ public class DistRdSpec : MonoBehaviour
 
         // Read Left Wall Data.
         DistToLeftWall = Mathf.Abs((LeftWallTransform.position.x - BossTransform.position.x));
-        
+
+        if (Mathf.Abs(DistToRightWall - DistToLeftWall) < 18.0f)
+            BossLoc = BossLocation.Center;
+
         // Boss is on the right side of screen
-        if(DistToRightWall < DistToLeftWall)
+        else if(DistToRightWall < DistToLeftWall)
             BossLoc = BossLocation.RightSide;
 
         // Boss is on the Leftside of screen

@@ -21,6 +21,8 @@ public class AIArbiter : MonoBehaviour
     bool MovingToOtherSide;
     float JumpWaitTime;
 
+    BossLocation Destination;
+
     // Use this for initialization
     void Start ()
     {
@@ -41,28 +43,42 @@ public class AIArbiter : MonoBehaviour
         // Gets updated Black Board.
         ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
 
+        // Part of the move tot he other side loop
+        if (MovingToOtherSide)
+            MoveToOtherSide(ReadBlackBoard.BossLoc);
+
+
+        
+        /*// Bullet dodging
+        if (ReadBlackBoard.AreBulletsNear)
+            AICtrl.Jump();
+        */
+        
         // Makes sure Boss is facing player
         FacePlayer();
 
-        // Change Behavior if Health is less than 50%
+        // Shooting behavior
+        if (ReadBlackBoard.isPlyrLinedUp && !ReadBlackBoard.AreBulletsNear)
+            AICtrl.ShootProj();
+        else
+        {
+            // Tries to Dodge bullets and realign player
+            if (CanJump == true)
+            {
+                AICtrl.Jump();
+                CanJump = false;
+                StartCoroutine(WaitBetweenJumps());
+            }
+        }
+
+        // Change Positioning Behavior if Health is less than 50%
         if (ReadBlackBoard.BossHP < 0.5f)
             BossBhvr = BossBehavior.Defensive;
 
+        // Positioning Behavior:
         switch (BossBhvr)
         {
             case BossBehavior.Agressive:
-                // Shooting behavior
-                if (ReadBlackBoard.isPlyrLinedUp)
-                    AICtrl.ShootProj();
-                else
-                {
-                    if (CanJump == true)
-                    {
-                        AICtrl.Jump();
-                        CanJump = false;
-                        StartCoroutine(WaitBetweenJumps());
-                    }
-                }
 
                 switch (ReadBlackBoard.PlyrDist)
                 {
@@ -85,29 +101,16 @@ public class AIArbiter : MonoBehaviour
                 }
                 break;
             case BossBehavior.Defensive:
-                // Shooting behavior
-                if (ReadBlackBoard.isPlyrLinedUp)
-                    AICtrl.ShootProj();
-                else
-                {
-                    if (CanJump == true)
-                    {
-                        AICtrl.Jump();
-                        CanJump = false;
-                        StartCoroutine(WaitBetweenJumps());
-                    }
-                }
-
                 switch (ReadBlackBoard.PlyrDist)
                 {
                     // Move to the other side of the screen.
                     case PlayerDistance.TooNear:
-
+                        MoveToOtherSide(ReadBlackBoard.BossLoc);
                         break;
 
                     // Jump Away from the player
                     case PlayerDistance.Near:
-                        JumpAway();
+                        MoveToOtherSide(ReadBlackBoard.BossLoc);
                         break;
 
                     // Ok distance.
@@ -160,7 +163,38 @@ public class AIArbiter : MonoBehaviour
 
     void MoveToOtherSide(BossLocation Origin)
     {
-
+       // Set Up Moving to other side status.
+        if (MovingToOtherSide == false)
+        {
+            // Set Up Destination
+            MovingToOtherSide = true;
+            // If on the Left side, go right.
+            if (Origin == BossLocation.LeftSide)
+                Destination = BossLocation.RightSide;
+            
+            // If on center or right side, go left!
+            else
+                Destination = BossLocation.LeftSide;
+            return;
+        }
+        else
+        {
+            if (Origin != Destination)
+            {
+                // Go right
+                if (Destination == BossLocation.RightSide)
+                    AICtrl.MoveRight();
+                
+                // Go left
+                else if (Destination == BossLocation.LeftSide)
+                    AICtrl.MoveLeft();
+                // Jump in either option
+                AICtrl.Jump();
+            }
+            // Boss movement has finished.
+            else
+                MovingToOtherSide = false;
+        }
     }
 
     IEnumerator WaitBetweenJumps()
