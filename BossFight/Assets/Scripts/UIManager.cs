@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour {
     public GameObject PlyrObj;
 
     BlkBrdMngr BlkBrdMngr;
+    AIArbiter AIArbtr;
 
     //Main UI
     public Image PlayerHP;
@@ -17,11 +18,18 @@ public class UIManager : MonoBehaviour {
     //Debug UI 
     public GameObject DebugTxtsObj;
 
+    //Distance Stats
+    public Text BossBhvrLbl;
+    public Text isBossMoveScreenLbl;
+    public Text BossDestLbl;
+
+    //Distance Stats
     public Text BossLocLbl;
     public Text PlyrLocLbl;
     public Text PlyrDistLbl;
     public Text FacingPlayer;
-
+    
+    // Bullets Stats
     public Text AreBulletsNearLbl;
     public Text TotalBulletsNearLbl;
 
@@ -34,7 +42,8 @@ public class UIManager : MonoBehaviour {
         DebugTxtsObj.SetActive(DebugText);
 
         BlkBrdMngr = BossObj.GetComponent<BlkBrdMngr>();
-	}
+        AIArbtr = BossObj.GetComponent<AIArbiter>();
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -48,9 +57,14 @@ public class UIManager : MonoBehaviour {
         // Only try to update debug variables if Debug Text is enabled.
         if(DebugText)
         {
-            #region Boss Bhvr Variables
+            #region Boss Behavior Variables
+            BossBhvrLbl.text = AIArbtr.BossBhvr.ToString();
+            BossDestLbl.text = AIArbtr.Destination.ToString();
 
-
+            if (AIArbtr.MovingToOtherSide)
+                isBossMoveScreenLbl.text = "Going to other side!";
+            else
+                isBossMoveScreenLbl.text = "Not going to other side!";
 
             #endregion
 

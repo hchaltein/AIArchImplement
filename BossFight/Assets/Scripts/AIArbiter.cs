@@ -16,12 +16,12 @@ public class AIArbiter : MonoBehaviour
     AICtrl AICtrl;
 
     // Class Variables
-    BossBehavior BossBhvr;
+    public BossBehavior BossBhvr;
     bool CanJump;
-    bool MovingToOtherSide;
+    public bool MovingToOtherSide;
     float JumpWaitTime;
 
-    BossLocation Destination;
+    public BossLocation Destination;
 
     // Use this for initialization
     void Start ()
@@ -46,13 +46,6 @@ public class AIArbiter : MonoBehaviour
         // Part of the move tot he other side loop
         if (MovingToOtherSide)
             MoveToOtherSide(ReadBlackBoard.BossLoc);
-
-
-        
-        /*// Bullet dodging
-        if (ReadBlackBoard.AreBulletsNear)
-            AICtrl.Jump();
-        */
         
         // Makes sure Boss is facing player
         FacePlayer();
