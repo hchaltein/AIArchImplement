@@ -31,7 +31,7 @@ public class DistRdSpec : MonoBehaviour
     public Transform RightWallTransform;
     public Transform LeftWallTransform;
 
-    BossLocation BossLoc;
+    BossLocation CurrentBossLoc;
     PlayerLocation PlyrLoc;
     PlayerDistance PlyrDist;
 
@@ -73,7 +73,7 @@ public class DistRdSpec : MonoBehaviour
     {
         BlkBrdMngr.WriteBlckBrd.PlyrTransform = PlyrTransform;
         BlkBrdMngr.WriteBlckBrd.BossTransform = BossTransform;
-        BlkBrdMngr.WriteBlckBrd.BossLoc = BossLoc;
+        BlkBrdMngr.WriteBlckBrd.CurBossLoc = CurrentBossLoc;
         BlkBrdMngr.WriteBlckBrd.PlyrLoc = PlyrLoc;
         BlkBrdMngr.WriteBlckBrd.PlyrDist = PlyrDist;
 
@@ -92,15 +92,15 @@ public class DistRdSpec : MonoBehaviour
         DistToLeftWall = Mathf.Abs((LeftWallTransform.position.x - BossTransform.position.x));
 
         if (Mathf.Abs(DistToRightWall - DistToLeftWall) < 18.0f)
-            BossLoc = BossLocation.Center;
+            CurrentBossLoc = BossLocation.Center;
 
         // Boss is on the right side of screen
         else if(DistToRightWall < DistToLeftWall)
-            BossLoc = BossLocation.RightSide;
+            CurrentBossLoc = BossLocation.RightSide;
 
         // Boss is on the Leftside of screen
         else
-            BossLoc = BossLocation.LeftSide;
+            CurrentBossLoc = BossLocation.LeftSide;
     }
 
     void ReadPlayerData()

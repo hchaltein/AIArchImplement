@@ -8,15 +8,24 @@ public class BlackBoard
     public Transform BossTransform;
     public Transform PlyrTransform;
 
+    //Current Active Specialist
+    ActionSpecialists ActSpec;
+    PassiveSpecialists PasSpec;
+
     // Health
     public float PlyrHP;
     public float BossHP;
 
+    //Boss Variables
+    public BossBehavior BossBhvr;
+
     // Distance Variables
-    public BossLocation BossLoc;
+    public BossLocation CurBossLoc;
+    public BossLocation DestBossLoc;
     public PlayerLocation PlyrLoc;
     public PlayerDistance PlyrDist;
     public bool isPlyrLinedUp;
+    public bool isMovingToOtherSide;
 
     // Projectile Variables
     public bool AreBulletsNear;
@@ -33,8 +42,11 @@ public class BlackBoard
         PlyrHP = 1.0f;
         BossHP = 1.0f;
 
+        //Boss Variables
+        BossBhvr = BossBehavior.Agressive;
+
         // Distance Variables
-        BossLoc = BossLocation.RightSide;
+        CurBossLoc = BossLocation.RightSide;
         PlyrLoc = PlayerLocation.LeftFromBoss;
         PlyrDist = PlayerDistance.Far;
         isPlyrLinedUp = false;
@@ -42,18 +54,5 @@ public class BlackBoard
         // Projectile Variables
         AreBulletsNear = false;
         NumberBulletsNear = 0;
-}
-
-    /*
-    public BlackBoard(Transform _BossTransform, Transform _PlyrTransform, float _PlyrHP, float _BossHP)
-    {
-        // Transforms
-        BossTransform = _BossTransform;
-        PlyrTransform = _PlyrTransform;
-
-        // Health
-        PlyrHP = _PlyrHP;
-        BossHP = _BossHP;
     }
-    */
 }

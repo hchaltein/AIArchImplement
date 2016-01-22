@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour {
     public GameObject PlyrObj;
 
     BlkBrdMngr BlkBrdMngr;
+    BlackBoard ReadBlackBoard;
     AIArbiter AIArbtr;
 
     //Main UI
@@ -48,20 +49,24 @@ public class UIManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        // Gets updated Black Board.
+        ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
+
+        // Enables Debug Interface
         if (Input.GetKeyDown(KeyCode.Period))
         {
             DebugText = !DebugText;
             DebugTxtsObj.SetActive(DebugText);
         }
         
-        // Only try to update debug variables if Debug Text is enabled.
+        // Only try to update debug variables if Debug Interface is enabled.
         if(DebugText)
         {
             #region Boss Behavior Variables
-            BossBhvrLbl.text = AIArbtr.BossBhvr.ToString();
-            BossDestLbl.text = AIArbtr.Destination.ToString();
+            BossBhvrLbl.text = ReadBlackBoard.BossBhvr.ToString();
+            BossDestLbl.text = ReadBlackBoard.DestBossLoc.ToString();
 
-            if (AIArbtr.MovingToOtherSide)
+            if (ReadBlackBoard.isMovingToOtherSide)
                 isBossMoveScreenLbl.text = "Going to other side!";
             else
                 isBossMoveScreenLbl.text = "Not going to other side!";
@@ -69,28 +74,27 @@ public class UIManager : MonoBehaviour {
             #endregion
 
             #region Distance Variables
-            BossLocLbl.text = BlkBrdMngr.ReadBlckBrd.BossLoc.ToString();
-            PlyrLocLbl.text = BlkBrdMngr.ReadBlckBrd.PlyrLoc.ToString();
-            PlyrDistLbl.text = BlkBrdMngr.ReadBlckBrd.PlyrDist.ToString();
-            if (BlkBrdMngr.ReadBlckBrd.isPlyrLinedUp)
+            BossLocLbl.text = ReadBlackBoard.CurBossLoc.ToString();
+            PlyrLocLbl.text = ReadBlackBoard.PlyrLoc.ToString();
+            PlyrDistLbl.text = ReadBlackBoard.PlyrDist.ToString();
+            if (ReadBlackBoard.isPlyrLinedUp)
                 FacingPlayer.text = "Player Lined Up!";
             else
                 FacingPlayer.text = "Player Not Lined Up!";
             #endregion
 
             #region Bullet Variables
-
-            if (BlkBrdMngr.ReadBlckBrd.AreBulletsNear)
+            if (ReadBlackBoard.AreBulletsNear)
                 AreBulletsNearLbl.text = "Bullets Are Near";
             else
                 AreBulletsNearLbl.text = "Bullets Are Not Near";
-            TotalBulletsNearLbl.text = BlkBrdMngr.ReadBlckBrd.NumberBulletsNear.ToString();
+            TotalBulletsNearLbl.text = ReadBlackBoard.NumberBulletsNear.ToString();
             #endregion
         }
 
         // Update HealthBars:
-        BossHp.fillAmount = BlkBrdMngr.ReadBlckBrd.BossHP;
-        PlayerHP.fillAmount = BlkBrdMngr.ReadBlckBrd.PlyrHP;
+        BossHp.fillAmount = ReadBlackBoard.BossHP;
+        PlayerHP.fillAmount = ReadBlackBoard.PlyrHP;
 
     }
 }
