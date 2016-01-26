@@ -4,30 +4,32 @@ using System.Collections;
 // blackBoard Object that contains all information on the scene
 public class BlackBoard
 {
-    // Transforms
+    //Transforms
     public Transform BossTransform;
     public Transform PlyrTransform;
 
-    //Current Active Specialist
-    ActionSpecialists ActSpec;
-    PassiveSpecialists PasSpec;
+    //Specialist
+    public ActionSpecialists ActSpec;
+    public PassiveSpecialists PasSpec;
 
     // Health
     public float PlyrHP;
     public float BossHP;
 
-    //Boss Variables
+    //Boss Behavior Spec Variables
     public BossBehavior BossBhvr;
 
-    // Distance Variables
+    // Distance Spec Variables
     public BossLocation CurBossLoc;
     public BossLocation DestBossLoc;
     public PlayerLocation PlyrLoc;
     public PlayerDistance PlyrDist;
     public bool isPlyrLinedUp;
     public bool isMovingToOtherSide;
+    public bool isAtSafeDistance;
 
-    // Projectile Variables
+
+    // Projectile Spec Variables
     public bool AreBulletsNear;
     public int NumberBulletsNear;
     
@@ -38,8 +40,13 @@ public class BlackBoard
         BossTransform = null;
         PlyrTransform = null;
 
-        // Health
-        PlyrHP = 1.0f;
+        //Current Active Specialist
+        ActSpec = ActionSpecialists.AttackSpec;
+        PasSpec = PassiveSpecialists.DistanceSpec;
+
+
+    // Health
+    PlyrHP = 1.0f;
         BossHP = 1.0f;
 
         //Boss Variables

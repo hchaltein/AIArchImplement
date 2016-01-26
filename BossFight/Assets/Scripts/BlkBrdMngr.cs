@@ -10,7 +10,7 @@ public class BlkBrdMngr : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
         // Instantiate the BBoard
         ReadBlckBrd = new BlackBoard();

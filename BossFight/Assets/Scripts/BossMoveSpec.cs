@@ -50,6 +50,7 @@ public class BossMoveSpec : MonoBehaviour
 
                     // Ok distance
                     case PlayerDistance.Near:
+                        BlkBrdMngr.WriteBlckBrd.isAtSafeDistance = true;
                         break;
 
                     // Get Closer to palyer
@@ -78,7 +79,9 @@ public class BossMoveSpec : MonoBehaviour
 
                     // Ok distance.
                     case PlayerDistance.Far:
+                        BlkBrdMngr.WriteBlckBrd.isAtSafeDistance = true;
                         break;
+
                     default:
                         Debug.Log("Invalid Player Distance");
                         break;
