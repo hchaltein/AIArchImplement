@@ -31,7 +31,14 @@ public class BossAttackSpec : MonoBehaviour
         // Gets updated Black Board.
         ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
 
-        // Shooting behavior
+        // If Specialist is active, act.
+        if (ReadBlackBoard.ActSpec == ActionSpecialists.AttackSpec)
+            AttackLogic();
+    }
+
+    // Boss shooting behavior
+    void AttackLogic()
+    {
         if (ReadBlackBoard.isPlyrLinedUp && !ReadBlackBoard.AreBulletsNear)
             AICtrl.ShootProj();
 

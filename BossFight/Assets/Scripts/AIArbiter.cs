@@ -76,7 +76,7 @@ public class AIArbiter : MonoBehaviour
         if (ReadBlackBoard.isAtSafeDistance)
             CurActSpec = ActionSpecialists.AttackSpec;
         else
-            CurActSpec = ActionSpecialists.AttackSpec;
+            CurActSpec = ActionSpecialists.MoveSpec;
 
         // Update Passive Specialist to BlackBoard
         BlkBrdMngr.WriteBlckBrd.ActSpec= CurActSpec;

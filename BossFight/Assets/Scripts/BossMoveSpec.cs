@@ -29,15 +29,26 @@ public class BossMoveSpec : MonoBehaviour
     {
         // Gets updated Black Board.
         ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
-
-        // Part of the move tot he other side loop
+        
+        // Part of the move to the other side loop
         if (MovingToOtherSide)
             MoveToOtherSide(ReadBlackBoard.CurBossLoc);
-
-        // Makes sure Boss is facing player
+        
+        // Makes sure Boss is ALWAYS facing player
         FacePlayer();
 
-        // Positioning Behavior:
+        // If Specialist is active, act.
+        if (ReadBlackBoard.ActSpec == ActionSpecialists.MoveSpec)
+            MoveLogic();
+
+        // Updates Write BlackBoard with MovingToOtherSide bool
+        BlkBrdMngr.WriteBlckBrd.isMovingToOtherSide = MovingToOtherSide;
+
+    } //Update
+
+    // Positioning Behavior:
+    void MoveLogic()
+    {
         switch (ReadBlackBoard.BossBhvr)
         {
             case BossBehavior.Agressive:
@@ -50,7 +61,6 @@ public class BossMoveSpec : MonoBehaviour
 
                     // Ok distance
                     case PlayerDistance.Near:
-                        BlkBrdMngr.WriteBlckBrd.isAtSafeDistance = true;
                         break;
 
                     // Get Closer to palyer
@@ -79,7 +89,6 @@ public class BossMoveSpec : MonoBehaviour
 
                     // Ok distance.
                     case PlayerDistance.Far:
-                        BlkBrdMngr.WriteBlckBrd.isAtSafeDistance = true;
                         break;
 
                     default:
@@ -91,11 +100,7 @@ public class BossMoveSpec : MonoBehaviour
                 Debug.Log("Invalid Bosss Behavior");
                 break;
         }
-
-        // Updates Write BlackBoard with MovingToOtherSide bool
-        BlkBrdMngr.WriteBlckBrd.isMovingToOtherSide = MovingToOtherSide;
-
-    } //Update
+    }
 
     //Function that rotates Boss towards player.
     void FacePlayer()

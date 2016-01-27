@@ -14,8 +14,6 @@ public class BossBhvrSpec : MonoBehaviour
     BlkBrdMngr BlkBrdMngr;
     BlackBoard ReadBlackBoard;
 
-    // Class Variables
-
     // Use this for initialization
     void Start ()
     {
@@ -33,6 +31,13 @@ public class BossBhvrSpec : MonoBehaviour
         // Update Reac Black Board.
         ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
 
+        // If Specialist is active, act.
+        if (ReadBlackBoard.PasSpec == PassiveSpecialists.BehaviorSpec)
+            BehaviorLogic();
+    }
+
+    void BehaviorLogic()
+    {
         // Change Behavior if Health is less than 50%
         if (ReadBlackBoard.BossHP < 0.5f)
             BlkBrdMngr.WriteBlckBrd.BossBhvr = BossBehavior.Defensive;

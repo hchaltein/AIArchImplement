@@ -10,31 +10,34 @@ public class UIManager : MonoBehaviour {
 
     BlkBrdMngr BlkBrdMngr;
     BlackBoard ReadBlackBoard;
-    AIArbiter AIArbtr;
-
+    
     //Main UI
     public Image PlayerHP;
     public Image BossHp;
-
+    
     //Debug UI 
     public GameObject DebugTxtsObj;
-
-    //Distance Stats
-    public Text BossBhvrLbl;
-    public Text isBossMoveScreenLbl;
-    public Text BossDestLbl;
+    bool DebugText = false;
 
     //Distance Stats
     public Text BossLocLbl;
     public Text PlyrLocLbl;
     public Text PlyrDistLbl;
-    public Text FacingPlayer;
-    
+    public Text SafeDistanceLbl;
+    public Text isBossMoveScreenLbl;
+    public Text BossDestLbl;
+    public Text FacingPlayerLbl;
+
+    //Behavior Variables
+    public Text BossBhvrLbl;
+
     // Bullets Stats
     public Text AreBulletsNearLbl;
     public Text TotalBulletsNearLbl;
 
-    bool DebugText = false;
+    //Current Active Specialist
+    public Text ActSpecLbl;
+    public Text PasSpecLbl;
 
     // Use this for initialization
     void Start ()
@@ -43,7 +46,6 @@ public class UIManager : MonoBehaviour {
         DebugTxtsObj.SetActive(DebugText);
 
         BlkBrdMngr = BossObj.GetComponent<BlkBrdMngr>();
-        AIArbtr = BossObj.GetComponent<AIArbiter>();
     }
 	
 	// Update is called once per frame
@@ -62,25 +64,33 @@ public class UIManager : MonoBehaviour {
         // Only try to update debug variables if Debug Interface is enabled.
         if(DebugText)
         {
-            #region Boss Behavior Variables
-            BossBhvrLbl.text = ReadBlackBoard.BossBhvr.ToString();
-            BossDestLbl.text = ReadBlackBoard.DestBossLoc.ToString();
+            
+            #region Distance Variables
+            BossLocLbl.text = ReadBlackBoard.CurBossLoc.ToString();
+            PlyrLocLbl.text = ReadBlackBoard.PlyrLoc.ToString();
+            PlyrDistLbl.text = ReadBlackBoard.PlyrDist.ToString();
+
+            if (ReadBlackBoard.isAtSafeDistance)
+                SafeDistanceLbl.text = "Safe Distance!";
+            else
+                SafeDistanceLbl.text = "Not Safe Distance!";
+
 
             if (ReadBlackBoard.isMovingToOtherSide)
                 isBossMoveScreenLbl.text = "Going to other side!";
             else
                 isBossMoveScreenLbl.text = "Not going to other side!";
 
+            BossDestLbl.text = ReadBlackBoard.DestBossLoc.ToString();
+
+            if (ReadBlackBoard.isPlyrLinedUp)
+                FacingPlayerLbl.text = "Player Lined Up!";
+            else
+                FacingPlayerLbl.text = "Player Not Lined Up!";
             #endregion
 
-            #region Distance Variables
-            BossLocLbl.text = ReadBlackBoard.CurBossLoc.ToString();
-            PlyrLocLbl.text = ReadBlackBoard.PlyrLoc.ToString();
-            PlyrDistLbl.text = ReadBlackBoard.PlyrDist.ToString();
-            if (ReadBlackBoard.isPlyrLinedUp)
-                FacingPlayer.text = "Player Lined Up!";
-            else
-                FacingPlayer.text = "Player Not Lined Up!";
+            #region Boss Behavior Variables
+            BossBhvrLbl.text = ReadBlackBoard.BossBhvr.ToString();
             #endregion
 
             #region Bullet Variables
@@ -90,6 +100,12 @@ public class UIManager : MonoBehaviour {
                 AreBulletsNearLbl.text = "Bullets Are Not Near";
             TotalBulletsNearLbl.text = ReadBlackBoard.NumberBulletsNear.ToString();
             #endregion
+
+            #region Specialists
+            ActSpecLbl.text = ReadBlackBoard.ActSpec.ToString();
+            PasSpecLbl.text = ReadBlackBoard.PasSpec.ToString();
+            #endregion
+
         }
 
         // Update HealthBars:

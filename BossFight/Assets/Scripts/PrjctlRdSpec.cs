@@ -5,6 +5,7 @@ public class PrjctlRdSpec : MonoBehaviour
 {
 
     BlkBrdMngr BlkBrdMngr;
+    BlackBoard ReadBlackBoard;
 
     public bool AreBulletsNear;
     public int TotalBulletsNear;
@@ -15,10 +16,25 @@ public class PrjctlRdSpec : MonoBehaviour
         BlkBrdMngr = GetComponent<BlkBrdMngr>();
         TotalBulletsNear = 0;
         AreBulletsNear = false;
+
+        // Gets Updated Blackboard
+        ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        // Gets Updated Blackboard
+        ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
+
+        // If Specialist is active, act.
+        if (ReadBlackBoard.PasSpec == PassiveSpecialists.BulletSpec)
+            ReadProjLogic();
+
+        UpdateBlackBox();
+    }
+
+    void ReadProjLogic()
     {
         if (TotalBulletsNear <= 0)
             AreBulletsNear = false;
@@ -28,8 +44,6 @@ public class PrjctlRdSpec : MonoBehaviour
         // Sometimes bullets near become negative, this is a hard fix.
         if (TotalBulletsNear < 0)
             TotalBulletsNear = 0;
-
-        UpdateBlackBox();
     }
 
     // Updates BlackBox with Data collected every frame.
