@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour {
         ReadBlackBoard = BlkBrdMngr.ReadBlckBrd;
 
         // Enables Debug Interface
-        if (Input.GetKeyDown(KeyCode.Period))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             DebugText = !DebugText;
             DebugTxtsObj.SetActive(DebugText);
